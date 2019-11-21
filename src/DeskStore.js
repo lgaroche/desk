@@ -1,5 +1,5 @@
-import PouchDB from 'pouchdb'
-import * as Auth from 'pouchdb-authentication'
+import PouchDB from 'pouchdb-browser'
+//import * as Auth from 'pouchdb-authentication'
 import { Document } from './Documents/Document.js'
 
 const byModifiedAt = (a,b) => {
@@ -10,8 +10,9 @@ const byModifiedAt = (a,b) => {
 }
 
 class DeskStore {
-  constructor(user, password) {
-    this.user = user
+
+  init(user, password) {
+    this.user = user;
     return new Promise((resolve, reject) => {
       return this.connect(password).then(res => {
         console.log("Connected to DeskStore")
@@ -39,34 +40,40 @@ class DeskStore {
   }
 
   connect(password) {
-    PouchDB.plugin(Auth)
-    let usersUrl = window.location.protocol+"//"+window.location.hostname+"/db/_users"
+    let baseUrl = window.location.protocol+"//"+window.location.hostname;
+
+    let usersUrl = baseUrl+"/db/_users"
     if(window.location.hostname === "localhost") {
-      usersUrl = window.location.protocol+"//"+window.location.hostname+":5984/_users"
+      usersUrl = baseUrl+":5984/_users"
     }
-    this._users = new PouchDB(usersUrl)
-    return this._users.login(this.user, password).then(res=> {
-      console.log(res)
-      this.deskUrl = window.location.protocol+"//"+window.location.hostname+"/db/"+res.roles[0]
-      if(window.location.hostname === "localhost") {
-        this.deskUrl = window.location.protocol+"//"+window.location.hostname+":5984/"+res.roles[0]
+
+    let auth = {
+      auth: {
+        username: this.user,
+        password
       }
-      console.log(this.deskUrl)
-      this.db = new PouchDB(this.deskUrl);
-      return new Promise((resolve, reject) => {
-        return this.db.login(this.user, password).then(res => {
-          console.log("Login success")
-          resolve(this)
-        }).catch(err => {
-          console.log("error login: " + err)
-          reject(err)
-        })
-      })
-    })
+    };
+
+    this._users = new PouchDB(baseUrl+":5984/_users", auth);
+    console.log(this._users);
+
+    return new Promise(resolve => {
+      return this._users.get("org.couchdb.user:" + this.user).then(userdoc => {
+        console.log(userdoc);
+        this.deskUrl = baseUrl+"/db/"+userdoc.roles[0]
+        if(window.location.hostname === "localhost") {
+          this.deskUrl = baseUrl+":5984/"+userdoc.roles[0]
+        }
+        console.log(this.deskUrl)
+        this.db = new PouchDB(this.deskUrl, auth);
+        resolve(this);
+      });
+    });
   }
 
   logout() {
-    return this.db.logout()
+    console.log("logout?");
+    return new Promise(resolve => resolve());
   }
 
   get(id) {
@@ -181,6 +188,7 @@ class DeskStore {
   }
 
   static signup(state) {
+    /* Signup disabled
     var user = state.user
     var password = state.password
     var email = state.email
@@ -208,7 +216,7 @@ class DeskStore {
         reject(err)
       })
     })
-
+  */
   }
 }
 

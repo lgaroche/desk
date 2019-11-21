@@ -44,8 +44,9 @@ class App extends React.Component {
                 denied={this.state.denied}
                 error={this.state.error}
                 onLogin={(user, password) => {
-                  new DeskStore(user, password).then(res => {
-                    this.setState({denied: false, loggedIn: true, store: res})
+                  let store = new DeskStore();
+                  store.init(user, password).then(() => {
+                    this.setState({denied: false, loggedIn: true, store})
                   }).catch(err => {
                     if(err.error == 'unauthorized') this.setState({denied: true, error: err.message})
                     console.log(err)

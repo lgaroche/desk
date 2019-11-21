@@ -1,17 +1,14 @@
 import React from 'react'
-import { render } from 'react-dom'
 import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom'
 
-import { Document } from './Documents/Document.js'
 import { Mainmenu } from './Mainmenu.js'
-import { Container, Header, Divider, Grid, Dimmer, Loader,
-  Icon, Image, Sidebar, Segment } from 'semantic-ui-react'
+import { Dimmer, Loader, Sidebar} from 'semantic-ui-react'
 import { Finder, DocEditor, DocViewer } from './Documents/Documents.jsx'
 import { BulkEditor } from './Documents/BulkEditor.jsx'
 
 class DeskApp extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
     }
   }
@@ -61,7 +58,7 @@ class DeskApp extends React.Component {
                     )
                   }} />
                   <Route exact path="/logout" render={(props) => {
-                    this.props.store.logout().then(res => {
+                    this.props.store.logout().then(() => {
                       this.props.onLogout()
                     })
                     return(<Redirect to="/"/>)

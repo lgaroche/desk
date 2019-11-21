@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom'
 import { Form, Button, Header, Input, Dropdown, List, Icon, TextArea,
   Modal, Divider } from 'semantic-ui-react'
 
-import * as Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone'
 
 import { Document } from './Document.js'
 import { Attachment, Attachments } from './Attachment.jsx'

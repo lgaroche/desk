@@ -53,7 +53,7 @@ class Login extends React.Component {
                       this.setState({loading: true})
                       this.props.onLogin(this.state.user, this.state.password)
                     }}/>
-                    <Button content="Register"
+                    <Button content="Register" disabled
                       icon="add user" onClick={()=>{
                       this.props.onRegister(this.state.user)
                     }}/>
