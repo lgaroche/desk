@@ -1,7 +1,7 @@
 const PouchDB = require("pouchdb")
 const request = require("superagent")
 
-const userpass = "admin:jackbauer"
+const userpass = "user:password"
 const url = "http://"+userpass+"@localhost:5984"
 var usersDb = new PouchDB(url + "/_users")
 
