@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node_modules\\.bin\\webpack-dev-server --content-base public/ --watch --history-api-fallback public/index.html",
+    "dev": "node_modules\\\\.bin\\\\webpack-dev-server --content-base public/dist/couchdesk/_attachments --watch --history-api-fallback",
     "deploy": "webpack --config webpack.prod.js && couchapp push public/dist/couchdesk https://user:password@server/db/app"
   },
   "author": "",
@@ -40,12 +40,13 @@
     "semantic-ui-react": "^0.72.0",
     "superagent": "^3.6.0",
     "url-loader": "^2.2.0",
-    "webpack": "^2.6.1"
+    "webpack": "^4.41.2"
   },
   "devDependencies": {
     "css-loader": "^3.2.0",
     "style-loader": "^0.18.2",
     "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-dev-server": "^3.1.11"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   }
 }

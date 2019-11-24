@@ -13,6 +13,8 @@ const webpackConfig = {
     app: path.resolve('src/index.js'),
   },
 
+  mode: "production",
+
   module: {
     rules: [{
       test: /\.(js|jsx)$/,
@@ -41,9 +43,12 @@ const webpackConfig = {
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
-    }),
-    new webpack.optimize.UglifyJsPlugin()
+    })
   ],
+
+  optimization: {
+    minimize: true
+  },
 
   output: {
     filename: '[name].js',

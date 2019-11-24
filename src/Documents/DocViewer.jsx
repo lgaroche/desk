@@ -1,9 +1,8 @@
 import React from 'react'
-import { render } from 'react-dom'
 import { Route } from 'react-router-dom'
 import { Segment, Button, Header, Label, Divider, Card } from 'semantic-ui-react'
 
-import { Attachment, Attachments } from './Attachment.jsx'
+import { Attachments } from './Attachment.jsx'
 
 class DocViewer extends React.Component {
   constructor(props) {

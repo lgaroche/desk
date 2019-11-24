@@ -1,11 +1,10 @@
 import React from 'react'
-import { render } from 'react-dom'
-import { Card, Dimmer, Icon, Loader, Button } from 'semantic-ui-react'
+import { Card, Icon, Button } from 'semantic-ui-react'
 
 class Attachments extends React.Component {
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.files != this.props.files;
+  shouldComponentUpdate(nextProps, _) {
+    return nextProps.files !== this.props.files;
   }
   render() {
     return(
@@ -20,9 +19,10 @@ class Attachments extends React.Component {
             deskUrl={this.props.deskUrl}
             docId={this.props.docId}
             onDelete={() => {
-              console.log("Requested deletion of " + file.name)
+              console.log("Requested deletion of " + file.name);
               this.props.onDeleteRequested(file.name)
-            }}/>
+            }}
+          />
         )): <div/>
       }
     </Card.Group>
@@ -33,32 +33,34 @@ class Attachments extends React.Component {
 
 class Attachment extends React.Component {
   constructor(props) {
-    super(props)
-    console.log(this.props)
+    super(props);
+    console.log(this.props);
     this.state = {
       new: this.props.newFile
-    }
-    if(this.props.newFile) {
+    };
+    if (this.props.newFile) {
       //this.upload(this.props.file)
     }
   }
 
+  /*
   upload(file) {
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.onload = () => {
-      const binString = reader.result
-      this.setState({new: false})
+      const binString = reader.result;
+      this.setState({new: false});
       console.log("name was: " + file.name)
-    }
+    };
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
     reader.readAsBinaryString(file)
   }
+  */
 
   render() {
     return(
       <Card
-        fluid={this.props.file.name.length>20? true: false}
+        fluid={this.props.file.name.length > 20}
         href={this.props.deskUrl + "/" + this.props.docId + "/" +this.props.file.name}
         target="_blank">
         <Card.Content>
@@ -70,13 +72,13 @@ class Attachment extends React.Component {
           </Card.Meta>
         </Card.Content>
         <Card.Content extra>
-          {parseInt(this.props.file.size/1024)} kB
+          {parseInt(this.props.file.size)/1024} kB
           {
             this.props.edit?
               <Button
                 basic
                 floated="right" icon="delete" size="mini" onClick={(e) => {
-                  this.props.onDelete()
+                  this.props.onDelete();
                   e.preventDefault()
                 }}/>
             : <div/>

@@ -1,8 +1,6 @@
 import React from 'react'
-import { render } from 'react-dom'
 import { Route } from 'react-router-dom'
 import { Header, Dropdown, Divider, Form, Button } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
 
 import { Documents } from './Documents.jsx'
 

@@ -1,17 +1,10 @@
-
 import React from 'react'
-import { render } from 'react-dom'
 import { Route, Link } from 'react-router-dom'
-import { Container, Loader, Dimmer, Button, List,
-  Divider, Card, Form, Grid, Table, Header,
-  Dropdown, Popup, Label, Menu, Checkbox, Segment,
-  Input, Image, Icon } from 'semantic-ui-react'
+import { List, Card, Table, Checkbox, Icon } from 'semantic-ui-react'
 
-import { Document } from './Document.js'
 import { DocEditor } from './DocEditor.jsx'
 import { DocViewer } from './DocViewer.jsx'
 import { Finder } from './Finder.jsx'
-import { Attachment, Attachments } from './Attachment.jsx'
 
 class Item extends React.Component {
   constructor(props) {

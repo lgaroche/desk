@@ -6,7 +6,7 @@ import { DeskApp } from './DeskApp.jsx'
 import { DeskStore } from './DeskStore.js'
 import { Signup } from './Signup.jsx'
 
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 
 

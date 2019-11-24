@@ -1,9 +1,9 @@
 import PouchDB from 'pouchdb-browser'
-//import * as Auth from 'pouchdb-authentication'
+import PouchDBAuth from 'pouchdb-authentication'
 import { Document } from './Documents/Document.js'
 
 const byModifiedAt = (a,b) => {
-  if(a.modifiedAt == undefined || b.modifiedAt == undefined) return 0
+  if(a.modifiedAt === undefined || b.modifiedAt === undefined) return 0
   var dateA = new Date(a.modifiedAt)
   var dateB = new Date(b.modifiedAt)
   return dateB.getTime() - dateA.getTime()
@@ -13,6 +13,8 @@ class DeskStore {
 
   init(user, password) {
     this.user = user;
+    this.password = password;
+    PouchDB.plugin(PouchDBAuth);
     return new Promise((resolve, reject) => {
       return this.connect(password).then(res => {
         console.log("Connected to DeskStore")
@@ -30,13 +32,17 @@ class DeskStore {
   }
 
   get docs() {
-    if(this._docs != undefined) {
+    if(this._docs !== undefined) {
       return this._docs
     }
   }
 
   set docs(docs) {
     this._docs = docs
+  }
+
+  login() {
+    return this._users.logIn(this.user, this.password);
   }
 
   connect(password) {
@@ -54,12 +60,22 @@ class DeskStore {
       }
     };
 
-    this._users = new PouchDB(baseUrl+":5984/_users", auth);
+    this._users = new PouchDB(usersUrl, auth);
     console.log(this._users);
 
     return new Promise(resolve => {
-      return this._users.get("org.couchdb.user:" + this.user).then(userdoc => {
+      return this._users.logIn(this.user, password).then(userdoc => {
         console.log(userdoc);
+
+        setInterval(() => {
+          console.log("keep-alive: start");
+          this._users.logIn(this.user, password).then(() => {
+            console.log("keep-alive: ok")
+          }).catch(err => {
+            console.error("keep-alive: " + err);
+          })
+        }, 300000);
+
         this.deskUrl = baseUrl+"/db/"+userdoc.roles[0]
         if(window.location.hostname === "localhost") {
           this.deskUrl = baseUrl+":5984/"+userdoc.roles[0]
@@ -72,8 +88,8 @@ class DeskStore {
   }
 
   logout() {
-    console.log("logout?");
-    return new Promise(resolve => resolve());
+    console.log("logout");
+    return this._users.logOut();
   }
 
   get(id) {

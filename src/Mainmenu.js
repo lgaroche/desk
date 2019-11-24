@@ -1,5 +1,4 @@
 import React from 'react'
-import { render } from 'react-dom'
 import { Menu, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
